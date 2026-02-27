@@ -10,7 +10,7 @@ import { useMockRealtimeData } from '../hooks/useMockRealtimeData';
 import { useNavigate } from 'react-router-dom';
 
 const MOCK_CAMERAS = [
-    { id: 'CAM-01', location: 'Main Entrance', status: 'active', fps: 30, resolution: '4K', latency: '12ms', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800' },
+    { id: 'CAM-01', location: 'Main Entrance', status: 'active', fps: 30, resolution: '4K', latency: '12ms', image: 'http://192.0.0.4:8080/video' },
     { id: 'CAM-02', location: 'Manufacturing Line A', status: 'active', fps: 60, resolution: '1080p', latency: '8ms', image: 'https://images.unsplash.com/photo-1565106430482-8f6e1f182b83?auto=format&fit=crop&q=80&w=800' },
     { id: 'CAM-03', location: 'Server Room Alpha', status: 'warning', fps: 24, resolution: '1080p', latency: '45ms', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800' },
     { id: 'CAM-04', location: 'Perimeter Fence South', status: 'offline', fps: 0, resolution: '1080p', latency: '--', image: 'https://images.unsplash.com/photo-1510065094200-e2b583f6fbf0?auto=format&fit=crop&q=80&w=800' },
