@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Primary Relational Database (Users, Roles, Camera Configs, Settings)
+  postgres:
+    image: postgres:15-alpine
+    container_name: visionaiot-postgres
+    environment:
+      POSTGRES_USER: aiotadmin
+      POSTGRES_PASSWORD: aiotsecurepassword
+      POSTGRES_DB: visionaiot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - vision-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiotadmin -d visionaiot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Time-Series Database (Alerts History, Camera Telemetry, Trends)
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: visionaiot-timescale
+    environment:
+      POSTGRES_USER: timescaleadmin
+      POSTGRES_PASSWORD: timescalesecurepassword
+      POSTGRES_DB: visionaiot_ts
+    ports:
+      - "5433:5432" # Mapped to 5433 to avoid conflict with standard Postgres
+    volumes:
+      - timescale-data:/var/lib/postgresql/data
+    networks:
+      - vision-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timescaleadmin -d visionaiot_ts"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # In-Memory Cache & Message Broker (WebSocket Pub/Sub, Real-time Queues)
+  redis:
+    image: redis:7-alpine
+    container_name: visionaiot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - vision-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  vision-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  timescale-data:
+  redis-data:
