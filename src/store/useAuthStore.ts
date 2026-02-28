@@ -42,7 +42,22 @@ export const setupAxiosInterceptors = () => {
     });
 
     axios.interceptors.response.use(
-        (response) => response,
+        (response) => {
+            // Vercel SPA routing returns index.html for unknown /api/ routes.
+            if (typeof response.data === 'string' && response.data.trim().startsWith('<')) {
+                console.warn('Backend unavailable (Vercel). Returning mock data for demo.', response.config.url);
+                const url = response.config.url || '';
+                let mockData: any = [];
+
+                if (url.includes('/api/stats')) mockData = { totalAnomalies24h: 221, avgInferenceTimeMs: 10.8, systemHealthPercent: 99.2, storageUsedGB: 43.9, totalStorageGB: 100, activeModels: 3, alertsResolvedToday: 91, totalFramesProcessed: '14.2M' };
+                if (url.includes('/api/analytics')) mockData = { trends: Array.from({ length: 10 }, (_, i) => ({ time_bucket: new Date(Date.now() - i * 3600000).toISOString(), anomaly_count: Math.floor(Math.random() * 20) })).reverse(), zoneMetrics: [], accuracyMetrics: { avg_confidence: 0.88, false_positive_rate: 0.02 } };
+                if (url.includes('/api/settings')) mockData = { systemName: 'VisionAIoT', aiConfidenceThreshold: 85, alertRetentionDays: 30, enablePushNotifications: false, theme: 'dark' };
+                if (url.includes('/api/storage/stats')) mockData = { totalBytes: 100 * 1024 ** 3, usedBytes: 43.9 * 1024 ** 3, fileCount: 1420 };
+
+                return { ...response, data: mockData };
+            }
+            return response;
+        },
         (error) => {
             // Auto-logout if JWT is expired or invalid
             if (error.response?.status === 401) {
