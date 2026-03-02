@@ -23,7 +23,7 @@ export default function LandingPage() {
                         <span className="text-2xl font-bold tracking-tight">VisionAIoT</span>
                     </div>
                     <Link
-                        to="/login"
+                        to="/dashboard"
                         className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]"
                     >
                         Access System
@@ -62,7 +62,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
                 >
                     <Link
-                        to="/login"
+                        to="/dashboard"
                         className="group flex items-center gap-3 px-8 py-4 bg-white text-black text-lg font-bold rounded-full hover:bg-gray-200 transition-all"
                     >
                         Launch Command Center

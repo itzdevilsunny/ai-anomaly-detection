@@ -13,16 +13,15 @@ import StorageDashboard from './modules/Storage/StorageDashboard';
 import SettingsDashboard from './modules/Settings/SettingsDashboard';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSocket } from './hooks/useSocket';
-import { setupAxiosInterceptors, useAuthStore } from './store/useAuthStore';
+import { setupAxiosInterceptors } from './store/useAuthStore';
 
 // Initialize JWT injection into every Axios request
 setupAxiosInterceptors();
 
 // A protective wrapper that kicks out unauthenticated users
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { token } = useAuthStore();
-  if (!token) return <Navigate to="/login" replace />;
-  return children;
+  // Dashboard is now public
+  return <>{children}</>;
 };
 
 export default function App() {
