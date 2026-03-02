@@ -1,6 +1,5 @@
 import React from 'react';
 import LandingPage from './pages/LandingPage';
-import Login from './pages/Login'; // You will need a basic login form here
 import DashboardLayout from './pages/Dashboard';
 import DashboardOverview from './modules/Dashboard/DashboardOverview';
 import LiveCameras from './modules/Cameras/LiveCameras';
@@ -30,10 +29,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Make the Dashboard the absolute default public route */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
 
         {/* Secure Dashboard Route */}
         <Route
