@@ -47,7 +47,8 @@ model Alert {
   confidence  Float
   imageUrl    String?
   timestamp   DateTime @default(now())
-  status      String   @default("unread") 
+  status      String   @default("Pending") 
+  operatorNotes String?
 }
 
 enum Severity {

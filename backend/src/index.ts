@@ -28,6 +28,8 @@ const io = new Server(httpServer, {
     }
 });
 
+app.set('io', io);
+
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 4000;
 
